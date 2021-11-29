@@ -1,0 +1,27 @@
+{
+  "name": "nci-blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "contract.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raasalgul/nci_blockchain_lab.git"
+  },
+  "author": "sathish",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raasalgul/nci_blockchain_lab/issues"
+  },
+  "homepage": "https://github.com/raasalgul/nci_blockchain_lab#readme",
+  "dependencies": {
+    "web3": "^1.6.0",
+    "big-number": "^2.0.0",
+    "dotenv": "^10.0.0",
+    "ethereumjs-tx": "^2.1.2",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security"
+  }
+}
