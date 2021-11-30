@@ -1,18 +1,7 @@
-// create a method that will be called by the web server
-
-// in this method:
-// - read the accounts.txt file
-// put the N accounts into an array
-// get the totalsupply for the token owner
-// calculate 5% of that totalSupply
-// loop N times, and execute N transactions transferring the token
-// collect tea and medals
-
-let fs = require("fs");
 let BigNumber = require("big-number")
-let contract = require('./contract.js')
 
 let method = require('./method.js');
+let contract = require('./contract.js');
 
 // this sets up my .env file
 require('dotenv').config()
@@ -21,29 +10,35 @@ require('dotenv').config()
 infuraToken = process.env.INFURA_TOKEN
 contractAddress = process.env.CONTRACT_ADDRESS
 ownerAddress = process.env.OWNER_ADDRESS
-privateKey = Buffer.from(process.env.SUPER_SECRET_PRIVATE_KEY, 'hex')
+privateKey = Buffer.from(process.env.PRIVATE_KEY, 'hex')
 
-const distribute = async() => {
-    // read in the file
-    let distributionAddresses = fs.readFileSync('./accounts.txt', 'utf8').split('\n');
-    console.log(`distro addresses are: ${ distributionAddresses}`);
+const distribute = async(gasPrice) => {
+  
+    // get the balance of the token owner
+    let ownerBalance = await contract.getBalanceOfAccount(ownerAddress);
+    let ob = new BigNumber(ownerBalance);
+    console.log(`owner balance is ${ob}`);
 
-    let tokenSymbol=await contract.getSymbol()
+    // get five percent of this balance
+    let fivePerCent = ob.div(20);
+    console.log(`five per cent of owner balance is ${fivePerCent}`);
 
-    let bal = new BigNumber(await contract.getBalanceOfOwner(ownerAddress))
+    // get the array of addresses from the file
+    let accountsToSend=await method.getAccountsFromFile();
 
-    console.log(`Owner Balance is ${bal}`)
-    let fivePerCent = bal.div(20)
-    // then we need to divide fivePerCent by the number of addresses in the file
-    let accounts = distributionAddresses.length
-    console.log(` we have ${accounts} accounts in our file and 5% is ${fivePerCent}`) 
+    // work out how many addresses in file (N)
+    let numberOfAddresses = accountsToSend.length;
+    console.log(`number of addresses in file is ${numberOfAddresses}`);
 
-    // for(i=0;i<accounts;i++){
-    //     console.log(`The account ${distributionAddresses[i]} will get ${fivePerCent} ${tokenSymbol} `)
-    //     await method.transferToken(distributionAddresses[i],fivePerCent);
-    // }
+    // divide the 5% by N to get distroAmount
+    let distributionAmount = fivePerCent.div(numberOfAddresses)
+    console.log(`distribution amount per address is ${distributionAmount}`);
 
+    for (looper = 0; looper < numberOfAddresses; looper++) {
+        console.log(`about to distribute ${distributionAmount} tokens go to ${accountsToSend[looper]}`)
+        let retval = await method.transferToken(accountsToSend[looper], distributionAmount, gasPrice)
+        console.log(`Balance after transation ${retval}`)
+    }
 }
 
-//distribute();
 module.exports = { distribute }
