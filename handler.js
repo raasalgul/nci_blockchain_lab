@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 
-const port = 8081;
+const port = 8080;
 
 // This get method "symbol" will return the symbol of the token
 app.get('/symbol', async(req,res) => {
