@@ -8,11 +8,13 @@ require('dotenv').config()
 
 // let's load our environment variables
 infuraToken = process.env.INFURA_TOKEN
-contractAddress = process.env.CONTRACT_ADDRESS
+contractAddress = process.env.CONTRACT_ADDRESS_3
 ownerAddress = process.env.OWNER_ADDRESS
 privateKey = Buffer.from(process.env.PRIVATE_KEY, 'hex')
 
 const distribute = async(gasPrice) => {
+
+    let retval = ""
   
     // get the balance of the token owner
     let ownerBalance = await contract.getBalanceOfAccount(ownerAddress);
@@ -36,9 +38,10 @@ const distribute = async(gasPrice) => {
 
     for (looper = 0; looper < numberOfAddresses; looper++) {
         console.log(`about to distribute ${distributionAmount} tokens go to ${accountsToSend[looper]}`)
-        let retval = await method.transferToken(accountsToSend[looper], distributionAmount, gasPrice)
+        retval = await method.transferToken(accountsToSend[looper], distributionAmount, gasPrice)
         console.log(`Balance after transation ${retval}`)
     }
+    return retval
 }
 
 module.exports = { distribute }

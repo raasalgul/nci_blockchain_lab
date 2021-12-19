@@ -12,7 +12,7 @@ let fs = require("fs");
 require('dotenv').config()
 
 infuraToken = process.env.INFURA_TOKEN
-contractAddress = process.env.CONTRACT_ADDRESS
+contractAddress = process.env.CONTRACT_ADDRESS_3
 ownerAddress = process.env.OWNER_ADDRESS
 privateKey = Buffer.from(process.env.PRIVATE_KEY, 'hex')
 
