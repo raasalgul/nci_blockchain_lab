@@ -74,3 +74,61 @@ The command to list all the container running
 The command to remove all the docker images
 
 ```docker image prune -a -f```
+
+## Curl for rest endpoint ##
+
+This curl is for getting symbol of the ERC20 token
+
+```curl --location --request GET 'http://localhost:8090/symbol'```
+
+
+This curl is for getting distribution accounts from the text file
+
+```curl --location --request GET 'http://localhost:8090/accounts-from-file'```
+
+
+This curl is for getting current balance of the ERC20 token
+
+```curl --location --request GET 'http://localhost:8090/balance'```
+
+
+This curl is for getting current gas price of the ethereum network
+
+```curl --location --request GET 'http://localhost:8090/gas-price'```
+
+
+This curl is for making transation of the ERC20 token with user defined ether gas price
+``` curl --location --request POST 'http://localhost:8090/transfer' \```
+```--header 'Content-Type: application/json' \```
+```--data-raw '{```
+```    "account_to":"0x3f4D34336a1357a19BeBb824166Ac12FAC5676B3",```
+```    "amount":"1",```
+```    "gas_price_in_gwei":"140"```
+```}'```
+
+
+This curl is for making transation of the ERC20 token with default ether gas price
+``` curl --location --request POST 'http://localhost:8090/transfer' \```
+```--header 'Content-Type: application/json' \```
+```--data-raw '{```
+```    "account_to":"0x3f4D34336a1357a19BeBb824166Ac12FAC5676B3",```
+```    "amount":"1",```
+```}'```
+
+
+
+This curl is for starting the distribution of the ERC20 token with default ether gas price
+
+```curl --location --request POST 'http://localhost:8090/distribute' \```
+```--header 'Content-Type: application/json' \```
+```--data-raw '{```
+ 
+```}' ```
+
+This curl is for starting the distribution of the ERC20 token with user defined ether gas price
+
+```curl --location --request POST 'http://localhost:8090/distribute' \```
+```--header 'Content-Type: application/json' \```
+```--data-raw '{```
+ ```    "gas_price_in_gwei":"140"```
+```}' ```
